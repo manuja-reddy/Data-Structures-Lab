@@ -1,0 +1,327 @@
+
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+	int data;
+	struct node *link;
+};
+struct node *head = NULL, *tail = NULL, *cur, *prev, *next;
+void create()
+{
+	int n,i;
+	printf("Enter the number of nodes : \n");
+	scanf("%d", &n);
+	for(i =0;i<n;i++)
+	{
+		cur = (struct node *)malloc(sizeof(struct node));
+		printf("enter current node data:");
+		scanf("%d",&(cur -> data));
+		cur -> link = NULL;
+		if(head == NULL)
+			head = tail = cur;
+		else
+		{
+			tail -> link = cur;
+			tail = cur;
+		}
+	}
+}	
+
+void insert_at_begin()
+{	
+	cur = (struct node *)malloc(sizeof(struct node));
+	printf("enter the cur element");
+	scanf("%d",&(cur -> data));
+	cur -> link = head;
+	head = cur;
+}
+
+void insert_at_end()
+{
+	cur = (struct node *)malloc(sizeof(struct node));
+	printf("enter data ");
+	scanf("%d",&(cur -> data));
+	cur -> link = NULL;
+	tail -> link = cur;
+	tail = cur;
+}
+
+void insert_at_a_position()
+{
+	int pos , c=1;
+	cur = (struct node *)malloc(sizeof(struct node));
+	printf("enter the cur data element:\n");
+	scanf("%d",&(cur -> data));
+	printf("enter the pos to insert:\n");
+	scanf("%d",&pos);
+	next = head;
+	while(c<pos)
+	{
+		prev = next;
+		next = next -> link;
+		c++;
+	}
+	prev -> link = cur;
+	cur -> link = next;
+}
+
+void insert_before()
+{
+
+	int value;
+	cur = (struct node *)malloc(sizeof(struct node));
+	printf("enter the element to be inserted:\n");
+	scanf("%d",&(cur -> data));
+	printf("enter data to insert before ");
+	scanf("%d",&value);
+	next = head;
+	while(next -> data != value && next != NULL)
+	{
+		prev = next;
+		next = next -> link;
+	}
+	prev -> link = cur;
+	cur -> link = next;	
+}
+
+void insert_after()
+{
+
+	int value;
+	cur = (struct node *)malloc(sizeof(struct node));
+	printf("enter the cur value to be inserted:\n");
+	scanf("%d",&(cur -> data));
+	printf("enter after which node we need to perform insertion\n");
+	scanf("%d",&value);
+	next = head;
+	while(next -> data != value && next != NULL)
+	{
+		next = next -> link;
+	}
+	cur -> link = next -> link;
+	next -> link = cur;	
+}
+
+
+
+void delete_at_begin()
+{
+	cur = head;
+	head = cur->link;
+	cur->link = NULL;
+	printf("Deleted element is %d\n",cur->link);
+	free(cur);
+}
+
+void delete_at_end()
+{
+	cur = head;
+	while(cur -> link != tail)
+	{
+		cur = cur -> link;
+	}
+	cur -> link = NULL;
+	next = tail;
+	printf("Deleted element is %d \n" , next -> data);
+	free(next);
+	tail = cur;
+}
+
+void delete_at_position()
+{
+	int pos , c=1;
+	printf("Enter position deletion");
+	scanf("%d",&pos);
+	next = head;
+	while(c<pos)
+	{
+		prev = next;
+		next = next -> link;
+		c++;
+	}
+	prev -> link = next -> link;
+	printf("Deleted Element is %d \n",next -> data);
+	next -> link = NULL;
+	free(next);
+}
+
+void delete_before_node()
+{
+	int value;
+	printf("Enter before which node we need to delete:");
+	scanf("%d",&value);
+	next = head;
+	while(next -> link -> data != value)
+	{
+		prev = next;
+		next = next -> link;
+	}
+	prev -> link = next -> link;	
+	next -> link = NULL;
+	printf("Deleted Element is %d \n",next->data);
+	free(next);
+}
+
+void delete_after_node()
+{
+	int value;
+	printf("Enter after which node we need to delete:\n");
+	scanf("%d",&value);
+	next = head;
+	while(next -> data != value)
+	{
+		prev = next;
+		next = next -> link;
+	}
+	prev = next -> link;	
+	next -> link = prev -> link;
+	printf("Deleted data is  %d \n",prev->data);
+	prev->link = NULL;
+	free(prev);
+}
+
+void traversal()
+{
+	if(head==NULL)
+	printf("list is empty");
+	else
+	{
+		next=head;
+	}
+	while(next!=NULL)
+	{
+		printf("%d*->",next->data);
+		next=next->link;
+	}
+	printf("NULL\n");
+}
+
+void reverse(struct node *head)
+{
+	if(head != NULL)
+	{
+		reverse(head -> link);
+		printf(" <- %d",head -> data);
+
+	}
+
+}
+
+void search_for_element()
+{
+	int value, flag = 0, c=0;
+	printf("Enter value to be searched:          \n");
+	scanf("%d",&value);
+	next = head;
+	while(next != NULL)
+	{
+		if(next -> data == value)
+		{
+			flag = 1;
+			break;
+		}
+		next = next -> link;
+		c++;
+	}
+	if(flag == 1)
+		printf("element present in the list at %d position",c+1);
+	else
+		printf("Element not present in the list ");
+}
+
+
+
+
+void sorting()
+{
+	struct node *p1 , *p2,*last = NULL;
+	int c,t;
+	do
+	{
+		c=0;
+		p1 = head;
+		while(p1 -> link != last)
+		{
+			if(p1 -> data > p1->link->data)
+			{
+				t = p1 ->data;
+				p1 -> data = p1 -> link ->data;
+				p1 -> link -> data = t;	
+
+			}
+		p1 = p1-> link;	
+		}
+		last = p1;
+	}while(c);
+}
+
+
+
+int main()
+{
+	int ch;
+	while(1)
+	{
+	printf("\n\n");
+	printf("---------------------------------------------------------------\n");
+	printf("Program for SINGLE LINKED LIST\n");
+	printf("-------------------------MENU-------------------------------\n");
+	printf("1. Create \n");
+	printf("2. Insert at begining \n");
+	printf("3. Insert at end \n");
+	printf("4. Insert at a position \n");
+	printf("5. Insert before a node\n");
+	printf("6. Insert after a node \n");
+	printf("7. Delete at begin \n");
+	printf("8. Delete at end\n");
+	printf("9. Delete at position \n");
+	printf("10. Delete before\n");
+	printf("11. Delete after\n");
+	printf("12. traversal \n");
+	printf("13. display in reverse\n");
+	printf("14. search\n");
+	printf("15. sort\n");
+	printf("enter your choice\n");
+	scanf("%d",&ch);
+	switch(ch)
+	{
+		case 1:create();
+		break;
+		case 2:insert_at_begin();
+		break;
+		case 3:insert_at_end();
+		break;
+		case 4:insert_at_a_position();
+		break;
+		case 5:insert_before();
+		break;
+		case 6:insert_after();
+		break;
+		case 7:delete_at_begin();
+		break;
+		case 8:delete_at_end();
+		break;
+		case 9:delete_at_position();
+		break;
+		case 10:delete_before_node();
+		break;
+		case 11:delete_after_node();
+		break;
+		case 12:traversal();
+		break;
+		case 13:reverse(head);
+		break;
+		case 14:search_for_element();
+		break;
+		case 15:sorting();
+		break;
+		case 16:exit(0);
+
+
+	}	
+	}
+
+}
+
+
